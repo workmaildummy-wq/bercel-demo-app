@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 22
+    commands:
+      - npm ci
+  build:
+    commands:
+      - npm run typecheck
+      - VITE_BERCEL_DEPLOYMENT_ID="$BERCEL_DEPLOYMENT_ID" VITE_BERCEL_COMMIT_SHA="$CODEBUILD_RESOLVED_SOURCE_VERSION" npm run build
+
+artifacts:
+  base-directory: dist
+  files:
+    - "**/*"
+  discard-paths: no
